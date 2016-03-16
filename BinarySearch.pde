@@ -1,5 +1,5 @@
-
-private Item[] store = {new Item(184,14),
+private Item[] store = {
+        new Item(184,14),
         new Item(196,60),
         new Item(206,31),
         new Item(2370,65),
@@ -23,17 +23,42 @@ private Item[] store = {new Item(184,14),
 public int linearSearch(int catNumToFind)
 {
     //complete this method
+    for(int i = 0; i < store.length; i ++)
+    {
+        if(store[i].getCatNum() == catNumToFind)
+            return store[i].getInventory();
+    }
     return -1;
 }
 public int binarySearch(int catNumToFind)
 {
-    //complete this method    
+    //complete this method
+    int high = store.length-1;
+    int low = 0;
+    while(low <= high)
+    {
+        int guess = (high+low)/2;
+        if(store[guess].getCatNum() > catNumToFind)
+            high = guess-1;
+        else if(store[guess].getCatNum() < catNumToFind)
+            low = guess+1;
+        else
+            return store[guess].getInventory();
+    } 
     return -1;    
 }
 public int binarySearch(int catNumToFind,int nLow, int nHigh)
 {
-    //complete this method    
-    return -1;           
+    //complete this method
+    int guess = (nHigh+nLow)/2;
+    if(nLow > nHigh && store[guess].getCatNum() != catNumToFind)
+        return -1;
+    if(store[guess].getCatNum() > catNumToFind)
+        return binarySearch(catNumToFind, nLow, guess-1);
+    else if(store[guess].getCatNum() < catNumToFind)
+        return binarySearch(catNumToFind, guess+1, nHigh);
+    else
+        return store[guess].getInventory();
 }
 public void setup()
 {
@@ -43,7 +68,6 @@ public void setup()
     System.out.println("=====================");
     for (int i = 0; i < tests.length; i++)
     {
-
         if(linearSearch(tests[i]) != -1)
             System.out.println("Catalog #"+tests[i]+" has "+linearSearch(tests[i]) + " in stock");
         else
@@ -54,7 +78,6 @@ public void setup()
     System.out.println("===================================");
     for (int i = 0; i < tests.length; i++)
     {
-
         if(binarySearch(tests[i]) != -1)
             System.out.println("Catalog #"+tests[i]+" has "+binarySearch(tests[i]) + " in stock");
         else
@@ -65,21 +88,13 @@ public void setup()
     System.out.println("===============================");
     for (int i = 0; i < tests.length; i++)
     {
-
         if(binarySearch(tests[i],0,store.length - 1) != -1)
             System.out.println("Catalog #"+tests[i]+" has "+binarySearch(tests[i],0,store.length - 1) + " in stock");
         else
             System.out.println("Catalog #"+tests[i]+" not found");
     }
-
 }
-
 public void draw()
 {
     //empty!
 }
-
-
-
-
-
